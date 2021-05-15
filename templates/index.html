@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <title>Testin</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+        <style>
+            * Chrome, Safari, Edge, Opera */
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* Firefox */
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+            #pinCode {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                background-color: white;
+            }
+        </style>
+        <style>
+            * {box-sizing: border-box;}
+            ul {list-style-type: none;}
+            body {font-family: Verdana, sans-serif;}
+            
+            .timePeriod {
+            padding: 70px 25px;
+            width: 100%;
+            background: #1abc9c;
+            text-align: center;
+            }
+            
+            .timePeriod ul {
+            margin: 0;
+            padding: 0;
+            }
+            
+            .timePeriod ul li {
+            color: white;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            }
+            
+            .timePeriod .prev {
+            float: left;
+            padding-top: 10px;
+            }
+            
+            .timePeriod .next {
+            float: right;
+            padding-top: 10px;
+            }
+            
+            .weekCalender {
+            margin: 0;
+            padding: 10px 0;
+            background-color: #ddd;
+            }
+            
+            .weekCalender li {
+            display: inline-block;
+            width: 12%;
+            color: #666;
+            text-align: center;
+            }
+            
+            .days {
+            padding: 10px 0;
+            background: #eee;
+            margin: 0;
+            }
+            
+            .days li {
+            list-style-type: none;
+            display: inline-block;
+            width: 12%;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size:12px;
+            color: #777;
+            }
+            
+            .days li .active {
+            padding: 5px;
+            background: #1abc9c;
+            color: white !important
+            }
+            
+            /* Add media queries for smaller screens */
+            @media screen and (max-width:795px) {
+            .weekCalender li, .days li {width: 11.8%;}
+            }
+            
+            @media screen and (max-width: 572px) {
+            .weekCalender li, .days li {width: 11.5%;}
+            .days li .active {padding: 2px;}
+            }
+            
+            @media screen and (max-width: 402px) {
+            .weekCalender li, .days li {width: 11%;}
+            }
+        </style>
+    
+
+        <script>
+            var globalWeek = 0;
+            function previousWeek(){
+                if(globalWeek==0){
+                    alert("Cannot check for past dates.");
+                    return;
+                }
+                globalWeek -= 1;
+                keyChangeCheckFunc();
+                return;
+            };
+            function nextWeek(){
+                globalWeek += 1;
+                keyChangeCheckFunc();
+                return;
+            };
+            function mainFunction(pincode, age){
+                $.ajax({url: $SCRIPT_ROOT + '/checkAvailablity',data: {inputPincode: pincode, inputAge: age, weekChange: globalWeek}, dataType: "html", success: function(result){
+                    $("#makeTable").html(result);
+                }});
+                //$.ajax({url: $SCRIPT_ROOT + '/checkAvailablity',data: {inputPincode: pincode, inputAge: age}, success: alert("s")});
+            };
+            function validPincode(pincode){
+                if(pincode>100000&&pincode<999999){
+                    return 1;
+                }
+                return 0;
+            };
+            function keyChangeCheckFunc() {
+                var forAge = document.querySelectorAll('input[name="minAge"]');
+                let selectedAge;
+                for (const currentAge of forAge) {
+                    if (currentAge.checked) {
+                        selectedAge = currentAge.value;
+                        break;
+                    }
+                }
+                var inputPincode = document.getElementById("pinCode");
+                var temp = document.getElementById('test');
+                if(!validPincode(inputPincode.value)){
+                    temp.style.display = "inline";
+                    document.getElementById('mainTable').style.display = "None";
+                    inputPincode.style.backgroundColor = "red";
+                    // Peform function for incorrect input
+                    return;
+                }
+                inputPincode.style.backgroundColor = "green";
+                temp.style.display = "none";
+                document.getElementById('mainTable').style.display = "Inline";
+                mainFunction(inputPincode.value, selectedAge);
+                return;
+            };
+        </script>
+    </head>
+    <body>
+
+        <p>Please enter your pincode<br>
+        <!--<input type="number" id="pinCode" onkeyup="" onchange="testFunction()">-->
+        <input type="number" id="pinCode" onkeyup="keyChangeCheckFunc()" name="pin">
+        <input type="radio" id="minAge" onclick="keyChangeCheckFunc()" name="minAge" value="18" checked="checked">
+        <label>18</label>
+        <input type="radio" id="minAge" onclick="keyChangeCheckFunc()" name="minAge" value="45">
+        <label>45</label>
+        <p id="test" style="display: none;">Invalid Pincode! Please enter a valid pincode</p>
+        <p id="result"></p>
+        <div id="mainTable" style="display: none;">
+
+            <div id="makeTable"></div>
+            
+        </div>
+    </body>
+</html>
