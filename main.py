@@ -11,7 +11,7 @@ def checkAppointementAvailablity():
     ageFromUser = request.args.get('inputAge', 18, type=int)
     dateFromUser = request.args.get('weekChange', 0, type=int)
     currentDate = dt.now() + datetime.timedelta(7*dateFromUser)
-    status = cowin.checkAppointmentAvailability(pincodeFromUser,currentDate,ageFromUser,0)
+    status = cowinApp.checkAppointmentAvailability(pincodeFromUser,currentDate,ageFromUser,0)
     #print(status)
     return status
     #return jsonify(result=a + b)
