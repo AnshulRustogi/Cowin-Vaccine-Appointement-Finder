@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 #Functions check for the appointment availablity using the COWIN API and cowinApp.py
 @app.route('/checkAvailablity')
-def checkAppointementAvailablity():
+def checkAppointmentAvailablity():
     #Store the input from user else use the default value
     pincodeFromUser = request.args.get('inputPincode', 100000, type=int)
     ageFromUser = request.args.get('inputAge', 18, type=int)
