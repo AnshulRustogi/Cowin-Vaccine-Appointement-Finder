@@ -139,7 +139,7 @@
             //Sends a request to checkAvailability link for API 
             //If successful request, then update the makeTable element.
             function mainFunction(pincode, age){
-                $.ajax({url: $SCRIPT_ROOT + '/checkAvailiability',data: {inputPincode: pincode, inputAge: age, weekChange: globalWeek}, dataType: "html", success: function(result){
+                $.ajax({url: $SCRIPT_ROOT + '/checkAvailability',data: {inputPincode: pincode, inputAge: age, weekChange: globalWeek}, dataType: "html", success: function(result){
                     $("#makeTable").html(result);
                 }});
             };
