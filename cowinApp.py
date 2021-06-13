@@ -1,3 +1,4 @@
+#Importing the required libraries
 import requests
 import json
 import pandas as pd
@@ -31,7 +32,7 @@ def mainOutput(pincodeFromUser, jsonStructure, ageFromUser, currentDateList, che
         mainStructure = mainStructure.drop(['lat', 'long', 'to', 'from', 'pincode', 'fee_type'], axis=1)
         mainStructure = mainStructure.set_index('center_id')
 
-        #Storing data for all the avaiable appointement according to the conditions from user like age, data        
+        #Storing data for all the avaiable appointment according to the conditions from user like age, data        
         for index,currentRow in mainStructure.iterrows():
             number = 0
             iterations = len(currentRow['sessions'])
@@ -47,7 +48,7 @@ def mainOutput(pincodeFromUser, jsonStructure, ageFromUser, currentDateList, che
             if len(currentRow['sessions']) == 0:
                 mainStructure = mainStructure.drop(index)
 
-        #If there are no avaiable centers than checking for appointement avaiability in the future weeks      
+        #If there are no avaiable centers than checking for appointment avaiability in the future weeks      
         if(len(mainStructure)==0):
             temp = datetime.date(int(currentDateList[0][6:10]),int(currentDateList[0][3:5]),int(currentDateList[0][0:2]))-datetime.timedelta(16)
             output = '<div class="timePeriod"><ul><li class="prev"><button onclick="previousWeek()">&#10094;</button></li><li class="next"><button onclick="nextWeek()">&#10095;</button></li>'
@@ -56,7 +57,7 @@ def mainOutput(pincodeFromUser, jsonStructure, ageFromUser, currentDateList, che
             
             #Limiting search to the next 3 weeks
             if(check>=3):
-                return output + "<center>No appointement Avaiable in your region for the next 3 weeks</center>"
+                return output + "<center>No appointment Avaiable in your region for the next 3 weeks</center>"
             return checkAppointmentAvailability(pincodeFromUser,datetime.date(int(currentDateList[0][6:10]),int(currentDateList[0][3:5]),int(currentDateList[0][0:2]))+datetime.timedelta(8),ageFromUser, check+1)
 
     else:
@@ -67,7 +68,7 @@ def mainOutput(pincodeFromUser, jsonStructure, ageFromUser, currentDateList, che
         for i in currentDateList:
             output += '<li>' + str(currentDateList[i]) +'</li>'
         output += '</ul>'
-        return output + "<br>Sorry No appointements are avaiable in your pincode for this period. Please try again later"
+        return output + "<br>Sorry No appointments are avaiable in your pincode for this period. Please try again later"
     
     # output variable which stores the html code which is returned to the flask app
     output = '<div class="timePeriod"><ul><li class="prev"><button onclick="previousWeek()">&#10094;</button></li><li class="next"><button onclick="nextWeek()">&#10095;</button></li>'
@@ -94,11 +95,11 @@ def mainOutput(pincodeFromUser, jsonStructure, ageFromUser, currentDateList, che
                 sessionAvaiable.append(currentRow['sessions'][i]['available_capacity'])
                 sessionAvaiable.append(currentRow['sessions'][i]['vaccine'])
                 i+=1
-                #print("Appointement available on",currentDate.strftime("%d-%m-%y"))
+                #print("appointment available on",currentDate.strftime("%d-%m-%y"))
             else:
                 sessionAvaiable.append("NO SLOT")
                 sessionAvaiable.append("")
-                #print("No appointement on",currentDate.strftime("%d-%m-%y"))
+                #print("No appointment on",currentDate.strftime("%d-%m-%y"))
             temp.append(sessionAvaiable)
             currentDate += datetime.timedelta(1)
             number += 1
