@@ -6,7 +6,7 @@ Steps:
 1) Clone the repository
 2) Create a virtual environment and activate the same. 
   ```
-  python3 -m venv cowinapp && source covinapp/bin/activate
+  python3 -m venv cowinapp && source cowinapp/bin/activate
   ```
   Here, a virutal env named "cowinapp" has been created and activated
   
@@ -19,3 +19,4 @@ Steps:
   export FLASK_APP=main.py
   flask run
   ```
+
