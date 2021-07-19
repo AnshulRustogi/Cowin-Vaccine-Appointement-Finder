@@ -1,8 +1,10 @@
 # Cowin-Vaccine-Appointment-Finder
 A web-interface made using Cowin API to search for vaccine appointment for a given pincode using Python, Flask, jQuery and AJAX.
 
+## Demo
 <img src="images/app_screenshot.png" width = "1000" height = "400">
 
+## To run the app
 To run the app follow these steps-
 1) Clone the repository
 2) Create a virtual environment and activate the same. 
