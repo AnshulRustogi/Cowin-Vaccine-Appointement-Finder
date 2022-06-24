@@ -29,6 +29,10 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: running app
+        run:  export FLASK_APP=main.py
+      - name: start
+        run: flask run
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
